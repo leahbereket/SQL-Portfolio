@@ -1,4 +1,4 @@
-AVG difference between 2011 vs 2021 GNIPC of very high, high, medium and low human development groups
+Difference between 2011 vs 2021 average GNIPC of very high, high, medium and low human development groups
 
 SELECT "Human Development Groups",
 AVG("Gross National Income Per Capita (2011)") as avg_gnipc_2011,
