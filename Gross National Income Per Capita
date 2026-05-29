@@ -40,3 +40,16 @@ where "Gross National Income Per Capita (2021)" is not null
 order by "Gross National Income Per Capita (2021)" asc
 limit 5
 );
+
+
+Countries GNIPC growth percentage between 2001 and 2021
+
+select 
+"country",
+(
+("Gross National Income Per Capita (2021)"
+- "Gross National Income Per Capita (2001)")/ "Gross National Income Per Capita (2001)" * 100) as growth_percentage
+from gnipc
+where "Gross National Income Per Capita (2021)" is not null
+AND "Gross National Income Per Capita (2001)" is not null
+order by growth_percentage desc;
