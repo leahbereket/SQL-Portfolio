@@ -1,0 +1,33 @@
+Data Cleaning Portion
+=====================
+
+Standardize casing and fix spelling errors within the borough and condition columns
+-----------------------------------------------------------------------------------
+update london_housing lh 
+set 
+	borough = initcap(trim(borough)),
+	"condition" = case
+		when upper(trim("condition")) in ('G00D') then 'Good'
+		else initcap(trim("condition"))
+	end;
+
+
+Change all null values to a consistent null label
+-------------------------------------------------
+update london_housing lh
+set
+"sale_price" = case when upper(trim("sale_price")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else sale_price end,
+"square_feet" = case when upper(trim("square_feet")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '', '-') then null else square_feet end,
+"year_built" = case when upper(trim("year_built")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else year_built end,
+"safety_rating" = case when upper(trim("safety_rating")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else safety_rating end,
+"school_rating" = case when upper(trim("school_rating")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else school_rating end,
+"has_garden" = case when upper(trim("has_garden")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else has_garden end;
+
+
+Fix inconsistent formatting within multiple columns
+---------------------------------------------------
+
+
+
+
+
