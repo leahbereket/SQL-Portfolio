@@ -66,5 +66,23 @@ SET
     END;
 
 
+Alter columns containing numbers in text format into integer, numeric or date format
+------------------------------------------------------------------------------------
+ALTER TABLE london_housing 
+ALTER COLUMN "sale_price" TYPE INTEGER USING "sale_price"::INTEGER, 
+ALTER COLUMN "square_feet" TYPE INTEGER USING "square_feet"::INTEGER,
+ALTER COLUMN "bedrooms" TYPE INTEGER USING "bedrooms"::INTEGER, 
+ALTER COLUMN "school_rating" TYPE INTEGER USING "school_rating"::INTEGER, 
+ALTER COLUMN "year_built" TYPE INTEGER USING "year_built"::INTEGER,
+ALTER COLUMN "safety_rating" TYPE NUMERIC(2,1) USING "safety_rating"::NUMERIC,
+ALTER COLUMN "listing_date" TYPE DATE USING "listing_date"::DATE;
+
+
+
+
+
+
+
+
 
 
