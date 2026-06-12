@@ -21,12 +21,49 @@ set
 "year_built" = case when upper(trim("year_built")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else year_built end,
 "safety_rating" = case when upper(trim("safety_rating")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else safety_rating end,
 "school_rating" = case when upper(trim("school_rating")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else school_rating end,
+"bedrooms" = case when upper(trim("bedrooms")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else bedrooms end,
 "has_garden" = case when upper(trim("has_garden")) in ('MISSING', 'N/A', 'UNKNOWN', 'NULL', '0', '') then null else has_garden end;
 
 
 Fix inconsistent formatting within multiple columns
 ---------------------------------------------------
-
+UPDATE london_housing
+SET
+    "sale_price" = REPLACE(REPLACE("sale_price", '£', ''), ',', ''),
+    "square_feet" = REGEXP_REPLACE("square_feet", '[,]|sq\s*ft', '', 'gi'),
+    "bedrooms" = CASE 
+        WHEN UPPER(TRIM("bedrooms")) = 'ONE'   THEN '1'
+        WHEN UPPER(TRIM("bedrooms")) = 'TWO'   THEN '2'
+        WHEN UPPER(TRIM("bedrooms")) = 'THREE' THEN '3'
+        WHEN UPPER(TRIM("bedrooms")) = 'FOUR'  THEN '4'
+        WHEN UPPER(TRIM("bedrooms")) = 'FIVE'  THEN '5'
+        WHEN UPPER(TRIM("bedrooms")) = 'SIX'   THEN '6'
+        ELSE TRIM("bedrooms")
+    END,
+    "has_garden" = CASE
+        WHEN UPPER(TRIM("has_garden")) = 'TRUE'  THEN 'Yes' 
+        WHEN UPPER(TRIM("has_garden")) = 'Y'     THEN 'Yes' 
+        WHEN UPPER(TRIM("has_garden")) = 'FALSE' THEN 'No' 
+        WHEN UPPER(TRIM("has_garden")) = 'N'     THEN 'No'
+        ELSE TRIM("has_garden")
+    END,
+    "school_rating" = SUBSTRING("school_rating" FROM '^[0-9]+'),
+    "listing_date" = CASE
+        WHEN "listing_date" ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' 
+            THEN TO_CHAR(TO_DATE("listing_date", 'YYYY-MM-DD'), 'YYYY-MM-DD')
+        WHEN "listing_date" ~ '^[0-9]{4}/[0-9]{2}/[0-9]{2}$' 
+            THEN TO_CHAR(TO_DATE("listing_date", 'YYYY/MM/DD'), 'YYYY-MM-DD')
+        WHEN "listing_date" ~ '^[0-9]{2}-[0-9]{2}-[0-9]{2}$'
+            THEN TO_CHAR(TO_DATE("listing_date", 'DD-MM-YY'), 'YYYY-MM-DD')
+        WHEN "listing_date" ~ '^[0-9]{2}-[0-9]{2}-[0-9]{4}$' 
+            THEN TO_CHAR(TO_DATE("listing_date", 'DD-MM-YYYY'), 'YYYY-MM-DD')
+        WHEN "listing_date" ~ '^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$' 
+             AND SPLIT_PART("listing_date", '/', 1)::INT > 12 
+            THEN TO_CHAR(TO_DATE("listing_date", 'DD/MM/YYYY'), 'YYYY-MM-DD')
+        WHEN "listing_date" ~ '^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$' 
+            THEN TO_CHAR(TO_DATE("listing_date", 'MM/DD/YYYY'), 'YYYY-MM-DD')
+        ELSE "listing_date" 
+    END;
 
 
 
