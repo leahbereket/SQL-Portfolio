@@ -78,10 +78,16 @@ ALTER COLUMN "safety_rating" TYPE NUMERIC(2,1) USING "safety_rating"::NUMERIC,
 ALTER COLUMN "listing_date" TYPE DATE USING "listing_date"::DATE;
 
 
+Data Analysis Portion
+=====================
+
+Boroughs ranked by affordability 
 
 
+Top 3 safest boroughs within London
 
 
+Best properties for a middle class family with 2 children (consider condition, safety rating and school rating)
 
 
 
