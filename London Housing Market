@@ -81,10 +81,24 @@ ALTER COLUMN "listing_date" TYPE DATE USING "listing_date"::DATE;
 Data Analysis Portion
 =====================
 
-Boroughs ranked by affordability 
+Top 5 cheapest boroughs to reside in (based on avg sale price)
+--------------------------------------------------------------
+select 
+"borough", 
+AVG("sale_price") as avg_sale_price
+from london_housing lh 
+group by "borough"
+order by "avg_sale_price" asc
+limit 5;
 
 
 Top 3 safest boroughs within London
+-----------------------------------
+
+
+
+
+
 
 
 Best properties for a middle class family with 2 children (consider condition, safety rating and school rating)
