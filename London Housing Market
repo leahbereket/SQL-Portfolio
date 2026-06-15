@@ -94,15 +94,24 @@ limit 5;
 
 Top 3 safest boroughs within London
 -----------------------------------
-
-
-
-
-
+select 
+"borough", 
+AVG("safety_rating") as avg_safety_rating
+from london_housing lh 
+group by "borough"
+order by "avg_safety_rating" desc
+limit 3;
 
 
 Best properties for a middle class family with 2 children (consider condition, safety rating and school rating)
-
-
+----------------------------------------------------------------------------------------------------------------------------
+select *
+from london_housing lh 
+where 
+"condition" in ('Good', 'Very Good', 'Excellent')
+and "sale_price" < 1000000
+and "bedrooms" in (2,3)
+and "safety_rating" >= 3
+and "school_rating" >= 6;
 
 
