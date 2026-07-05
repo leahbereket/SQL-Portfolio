@@ -1,0 +1,14 @@
+
+
+Top Selling Products
+--------------------
+
+select p.product_id,
+p2.product_name,
+count (p.product_id) as purchase_count
+from purchases p
+left join products p2 
+on p.product_id = p2.product_id 
+group by p.product_id,
+p2.product_name 
+order by "purchase_count" desc;
