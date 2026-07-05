@@ -12,3 +12,29 @@ on p.product_id = p2.product_id
 group by p.product_id,
 p2.product_name 
 order by "purchase_count" desc;
+
+
+Most Frequently Repurchased Products
+------------------------------------
+select p.product_id,
+p2.product_name,
+count (*) as repeat_customers
+from (
+	select
+		product_id,
+		user_id
+		from purchases p 
+		group by
+			product_id,
+			p.user_id 
+		having count(order_id) >= 2
+	) p
+	left join products p2
+		on p.product_id = p2.product_id 	
+	group by
+		p.product_id,
+		p2.product_name 
+	order by repeat_customers desc;
+
+
+
