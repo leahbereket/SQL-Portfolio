@@ -16,6 +16,7 @@ order by "purchase_count" desc;
 
 Most Frequently Repurchased Products
 ------------------------------------
+
 select p.product_id,
 p2.product_name,
 count (*) as repeat_customers
@@ -35,6 +36,17 @@ from (
 		p.product_id,
 		p2.product_name 
 	order by repeat_customers desc;
+
+
+Average Time Between Session Start Time & Order Time
+----------------------------------------------------
+
+select
+AVG(p.order_date::timestamp - s.start_time::timestamp) AS time_difference
+from purchases p
+left join sessions s
+on p.session_id = s.session_id; 
+		
 
 
 
