@@ -48,5 +48,12 @@ left join sessions s
 on p.session_id = s.session_id; 
 		
 
+Number of Sales by Hour of Day
+-------------------------------
+
+select extract(hour from order_time::time) as hour_of_day,
+count(*) as number_of_sales
+from purchases p
+group by extract(hour from order_time::time);
 
 
